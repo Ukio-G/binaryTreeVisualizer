@@ -1,5 +1,6 @@
 #include <iostream>
 #include "TreeNodeWidget.hpp"
+#include <sstream>
 
 TreeNodeWidget::TreeNodeWidget() {
     initFont();
@@ -11,6 +12,7 @@ TreeNodeWidget::TreeNodeWidget(Tree * node, sf::Vector2f position) : m_position(
     setTextFromNode();
     m_circle.setFillColor(m_circleColor);
     m_circle.setPosition(position);
+    initParametersWidget();
 }
 
 TreeNodeWidget::TreeNodeWidget(const TreeNodeWidget &other) : m_position(other.m_position),
@@ -20,9 +22,11 @@ TreeNodeWidget::TreeNodeWidget(const TreeNodeWidget &other) : m_position(other.m
     m_text(other.m_text),
     m_font(other.m_font),
     m_fontSize(other.m_fontSize),
-    m_radius(other.m_radius) {
+    m_radius(other.m_radius),
+    parametersWidget({other.m_position.x, other.m_position.y + 2 * m_radius}, {2 * m_radius, 12.f}) {
     initText();
     setTextFromNode();
+    initParametersWidget();
 }
 
 void TreeNodeWidget::setPosition(const sf::Vector2f &position) {
@@ -46,8 +50,7 @@ void TreeNodeWidget::setRadius(float radius) {
 }
 
 void TreeNodeWidget::initFont(std::string path) {
-    if (!m_font.loadFromFile(path))
-    {
+    if (!m_font.loadFromFile(path)) {
         std::cerr << "[ERROR] Failed to load font: " << path << std::endl;
         exit(1);
     }
@@ -85,6 +88,7 @@ void TreeNodeWidget::setNode(Tree *node) {
 void TreeNodeWidget::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_circle);
     target.draw(m_text);
+    target.draw(parametersWidget);
 }
 
 void TreeNodeWidget::translate(const sf::Vector2f &position) {
@@ -98,6 +102,7 @@ void TreeNodeWidget::translate(const sf::Vector2f &position) {
     pos.y += m_radius - bounds.height / 2.f;
 
     m_text.setPosition(pos);
+    parametersWidget.translate(position);
 }
 
 const sf::Vector2f &TreeNodeWidget::getPosition() const {
@@ -124,8 +129,36 @@ void TreeNodeWidget::setRight(TreeNodeWidget *mRight) {
     m_right = mRight;
 }
 
-void TreeNodeWidget::initParameters() {
+void TreeNodeWidget::initParametersWidget() {
+    updateParametersWidgetGeometry();
+    updateParametersWidgetContent();
 }
 
-void TreeNodeWidget::updateParametersWidget() {}
+void TreeNodeWidget::updateParametersWidgetGeometry() {
+    sf::Vector2f pwgs_position = {m_position.x, m_position.y + 2 * m_radius};
+    sf::Vector2f pwgs_node_size = {m_radius * 2, 12.f};
+    parametersWidget.resizeNodes(pwgs_node_size);
+    parametersWidget.setPosition(pwgs_position);
+}
+
+void TreeNodeWidget::updateParametersWidgetContent() {
+    parametersWidget.appendParameter("value", std::to_string(m_node->value));
+    parametersWidget.appendParameter("height", std::to_string(m_node->height));
+
+    std::stringstream ss;
+    ss << m_node;
+    parametersWidget.appendParameter("this", ss.str());
+
+    ss.str("");
+    ss << m_node->parent;
+    parametersWidget.appendParameter("parent", ss.str());
+
+    ss.str("");
+    ss << m_node->left;
+    parametersWidget.appendParameter("left", ss.str());
+
+    ss.str("");
+    ss << m_node->right;
+    parametersWidget.appendParameter("right", ss.str());
+}
 

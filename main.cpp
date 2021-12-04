@@ -41,7 +41,7 @@ int main() {
 
     Tree * t = sampleTree();
 
-    TreeWidget tw(t, {50, 50}, {1400,600});
+    TreeWidget tw(t, {50, 50}, {1400,850});
 
     tw.setContentOnCenter();
     tw.initConnectionBetweenNodes();
@@ -81,7 +81,8 @@ int main() {
 
 
         tw.drawSegments(window);
-        window.draw(tw);        ImGui::SFML::Render(window);
+        window.draw(tw);
+        ImGui::SFML::Render(window);
         window.display();
     }
     ImGui::SFML::Shutdown();

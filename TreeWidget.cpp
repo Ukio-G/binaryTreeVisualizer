@@ -21,7 +21,7 @@ void TreeWidget::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 
 sf::Vector2f TreeWidget::getSize() {
     unsigned int height = root->calculateMaxHeight();
-    unsigned int  width = std::pow(2, height) - 1;
+    unsigned int width = nodesCount(root);
     return sf::Vector2f(width, height);
 }
 
@@ -103,7 +103,7 @@ std::vector<TreeWidget::NodePath> nodePath(Tree * node)
 
 TreeNodeWidget TreeWidget::infixTravesalCreateNodeWidget(Tree *node) {
     int grid_x = m_nodes.size();
-    auto screen_position = getPositionSquareInGrid(grid_x, node->height - 1);
+    auto screen_position = getPositionSquareInGrid(grid_x, distanceToRoot(node) - 1);
     auto pos = sf::Vector2f(screen_position.x + m_position.x, screen_position.y + m_position.y);
     TreeNodeWidget nodeWidget(node, pos);
     nodeWidget.setRadius(m_radius);

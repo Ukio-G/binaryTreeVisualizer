@@ -29,7 +29,9 @@ public:
     void setLeft(TreeNodeWidget *mLeft);
     TreeNodeWidget *getRight() const;
     void setRight(TreeNodeWidget *mRight);
-    void initParameters();
+    void initParametersWidget();
+    void updateParametersWidgetGeometry();
+    void updateParametersWidgetContent();
 
 private:
     ParametersWidget parametersWidget;
@@ -39,6 +41,7 @@ private:
     Tree * m_node;
     float m_radius;
     sf::Vector2f m_position;
+    sf::Vector2f m_size;
     unsigned int m_fontSize;
     sf::Color m_circleColor;
     TreeNodeWidget * m_left;
@@ -47,8 +50,6 @@ private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     void initText();
-
-    void updateParametersWidget();
 };
 
 

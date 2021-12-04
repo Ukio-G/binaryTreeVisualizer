@@ -55,3 +55,7 @@ void ParametersWidget::appendParameter(const std::string &parameter, const std::
     ParameterWidget widget(position, m_nodeSize, parameter, value);
     widgets.push_back(widget);
 }
+
+void ParametersWidget::removeParameters() {
+    widgets.clear();
+}

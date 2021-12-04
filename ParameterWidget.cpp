@@ -58,7 +58,7 @@ void ParameterWidget::setSize(const sf::Vector2f &size) {
 void ParameterWidget::setPosition(const sf::Vector2f &position) {
     m_position = position;
     m_content.first.setPosition(position.x, position.y - 1.f);
-
+    m_bound.setPosition(position);
     auto letterSize = m_size.y;
 
     m_content.second.setPosition(position.x + letterSize * 4, position.y - 1.f);

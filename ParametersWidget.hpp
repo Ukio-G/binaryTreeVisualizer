@@ -14,19 +14,18 @@ public:
     ~ParametersWidget();
 
     void appendParameter(const std::string & parameter, const std::string & value);
+    void resizeWithUpdatePosition(const sf::Vector2f &newSize);
     void setPosition(const sf::Vector2f & position);
     void resizeNodes(const sf::Vector2f &size);
     void translate(const sf::Vector2f & offset);
-private:
+    void removeParameters();
 
+private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     std::vector<ParameterWidget> widgets;
     sf::Vector2f m_nodeSize;
     sf::Vector2f m_basePosition;
-
-
-    void resizeWithUpdatePosition(const sf::Vector2f &newSize);
 };
 
 

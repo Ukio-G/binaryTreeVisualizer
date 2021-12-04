@@ -19,8 +19,13 @@ public:
 
     int calculateMaxHeight();
 
+    void recursiveHeightUpdate();
+
 private:
     static void calculateMaxHeightImpl(Tree *node, int *height);
 };
+
+int nodesCount(Tree* root);
+int distanceToRoot(Tree* node);
 
 #endif

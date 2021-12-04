@@ -69,7 +69,7 @@ void smallRightRotate(Tree *& root, int key) {
     }
     if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
     /* Height correction */
-    a->height++; b->height--; l->height--; r->height++;
+    a->height++; b->height--; if (l) l->height--; if (r) r->height++;
 }
 
 void bigLeftRotate(Tree *& root, int key) {
