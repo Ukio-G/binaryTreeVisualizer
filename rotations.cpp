@@ -16,8 +16,8 @@ Tree * findNodeByKey(Tree * node, int key) {
 
 enum NodeDirectory {LeftDir, RightDir, NoneDir};
 
-void smallLeftRotate(Tree *& root, int key) {
-    auto a = findNodeByKey(root, key);
+void smallLeftRotate(Tree *& root) {
+    auto a = root; //findNodeByKey(root, key);
     auto parent = a->parent;
 
     auto direction = (parent) ? (parent->left == a) ? LeftDir : RightDir : NoneDir;
@@ -41,11 +41,12 @@ void smallLeftRotate(Tree *& root, int key) {
     }
     if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
     /* Height correction */
-    a->height++; b->height--; if (l) l->height++; if (r) r->height--;
+    
 }
 
-void smallRightRotate(Tree *& root, int key) {
-    auto a = findNodeByKey(root, key);
+void smallRightRotate(Tree *& root) {
+    // auto a = findNodeByKey(root, key);
+    auto a = root;
     auto parent = a->parent;
 
     auto direction = (parent) ? (parent->left == a) ? LeftDir : RightDir : NoneDir;
@@ -69,7 +70,7 @@ void smallRightRotate(Tree *& root, int key) {
     }
     if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
     /* Height correction */
-    a->height++; b->height--; if (l) l->height--; if (r) r->height++;
+
 }
 
 void bigLeftRotate(Tree *& root, int key) {
@@ -77,5 +78,31 @@ void bigLeftRotate(Tree *& root, int key) {
 }
 
 void bigRightRotate(Tree *& root, int key) {
+
+}
+
+void smallLeftRotateKey(Tree *& root, int key) {
+    if (root->value == key)
+        smallLeftRotate(root);
+    else {
+        Tree * node = findNodeByKey(root, key);
+        smallLeftRotate(node);
+    }
+}
+
+void smallRightRotateKey(Tree *& root, int key) {
+    if (root->value == key)
+        smallRightRotate(root);
+    else {
+        Tree * node = findNodeByKey(root, key);
+        smallRightRotate(node);
+    }
+}
+
+void bigLeftRotateKey(Tree *& root, int key) {
+
+}
+
+void bigRightRotateKey(Tree *& root, int key) {
 
 }

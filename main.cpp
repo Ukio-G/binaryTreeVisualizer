@@ -109,22 +109,22 @@ void treeControlMenu(Tree *& root, TreeWidget & widget) {
     }
 
     if (ImGui::Button("Small left rotate")) {
-        smallLeftRotate(root, nodeKeyManipulation);
+        smallLeftRotateKey(root, nodeKeyManipulation);
         rebuildTreeWidget = true;
     }
 
     if (ImGui::Button("Small right rotate")) {
-        smallRightRotate(root, nodeKeyManipulation);
+        smallRightRotateKey(root, nodeKeyManipulation);
         rebuildTreeWidget = true;
     }
 
     if (ImGui::Button("Big left rotate")) {
-        bigLeftRotate(root, nodeKeyManipulation);
+        bigLeftRotateKey(root, nodeKeyManipulation);
         rebuildTreeWidget = true;
     }
 
     if (ImGui::Button("Big right rotate")) {
-        bigRightRotate(root, nodeKeyManipulation);
+        bigRightRotateKey(root, nodeKeyManipulation);
         rebuildTreeWidget = true;
     }
 
