@@ -12,13 +12,15 @@
 #include "rotations.hpp"
 
 Tree* sampleTree() {
-    Tree *t = new Tree(0);
-    t->insert(50);
-
+    Tree *t = new Tree(50);
+    t->insert(25);
+    t->insert(100);
+    t->insert(0);
+    t->insert(37);
     return t;
 }
 
-void treeControlMenu(Tree * root, TreeWidget & widget);
+void treeControlMenu(Tree *& root, TreeWidget & widget);
 
 int main() {
     sf::ContextSettings settings;
@@ -40,6 +42,7 @@ int main() {
     Tree * t = sampleTree();
 
     TreeWidget tw(t, {50, 50}, {1400,600});
+
     tw.setContentOnCenter();
     tw.initConnectionBetweenNodes();
     glewInit();
@@ -78,8 +81,7 @@ int main() {
 
 
         tw.drawSegments(window);
-        window.draw(tw);
-        ImGui::SFML::Render(window);
+        window.draw(tw);        ImGui::SFML::Render(window);
         window.display();
     }
     ImGui::SFML::Shutdown();
@@ -89,7 +91,7 @@ int main() {
 
 int newValue = 0;
 int nodeKeyManipulation = 0;
-void treeControlMenu(Tree * root, TreeWidget & widget) {
+void treeControlMenu(Tree *& root, TreeWidget & widget) {
     ImGui::Begin("Tree manipulations");
     /***************************/
     /* ImGui menu content here */

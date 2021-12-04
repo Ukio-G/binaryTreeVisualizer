@@ -28,6 +28,8 @@ add_executable(tree_drawer
         TreeWidget.cpp
         TreeNodeWidget.cpp
         rotations.cpp
+        ParameterWidget.cpp
+        ParametersWidget.cpp
         )
 
 include_directories(imgui include ${OPENGL_INCLUDE_DIRS} .)

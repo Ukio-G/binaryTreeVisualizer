@@ -10,24 +10,17 @@ public:
     Tree * right;
     int value;
     int height;
-    int max_height;
-
-
-    int x_max = 0;
-    int x_min = 0;
-    int x_proj = 0;
 
 
     Tree* findRoot();
-    const Tree* getRoot() const;
-    Tree* getRoot();
     void insert(int value);
 
     int getWidth();
 
-private:
-    Tree * root;
+    int calculateMaxHeight();
 
+private:
+    static void calculateMaxHeightImpl(Tree *node, int *height);
 };
 
 #endif

@@ -20,7 +20,7 @@ void TreeWidget::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 sf::Vector2f TreeWidget::getSize() {
-    unsigned int height = root->max_height;
+    unsigned int height = root->calculateMaxHeight();
     unsigned int  width = std::pow(2, height) - 1;
     return sf::Vector2f(width, height);
 }

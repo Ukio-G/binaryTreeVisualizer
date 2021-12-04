@@ -123,3 +123,9 @@ TreeNodeWidget *TreeNodeWidget::getRight() const {
 void TreeNodeWidget::setRight(TreeNodeWidget *mRight) {
     m_right = mRight;
 }
+
+void TreeNodeWidget::initParameters() {
+}
+
+void TreeNodeWidget::updateParametersWidget() {}
+

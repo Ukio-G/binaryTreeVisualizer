@@ -7,6 +7,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include "Tree.hpp"
+#include "ParametersWidget.hpp"
 
 class TreeNodeWidget : public sf::Drawable {
 public:
@@ -28,9 +29,10 @@ public:
     void setLeft(TreeNodeWidget *mLeft);
     TreeNodeWidget *getRight() const;
     void setRight(TreeNodeWidget *mRight);
+    void initParameters();
 
 private:
-
+    ParametersWidget parametersWidget;
     sf::CircleShape m_circle;
     sf::Font m_font;
     sf::Text m_text;
@@ -45,6 +47,8 @@ private:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     void initText();
+
+    void updateParametersWidget();
 };
 
 

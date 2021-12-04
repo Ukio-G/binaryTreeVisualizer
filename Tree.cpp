@@ -2,6 +2,8 @@
 #include "Tree.hpp"
 
 Tree *Tree::findRoot() {
+    if (parent == nullptr)
+        return this;
     Tree * tmp_parent = parent;
     while (tmp_parent)
         if (tmp_parent->parent)
@@ -11,19 +13,29 @@ Tree *Tree::findRoot() {
     return tmp_parent;
 }
 
-Tree::Tree(Tree *parent, int value) : parent(parent), root(parent->root), left(nullptr), right(nullptr), value(value), height(parent->height + 1) {
+Tree::Tree(Tree *parent, int value) : parent(parent), left(nullptr), right(nullptr), value(value), height(parent->height + 1) {
 }
 
-const Tree *Tree::getRoot() const {
-    return root;
+
+Tree::Tree(int value) : parent(nullptr), left(nullptr), right(nullptr), value(value), height(1) {
+
 }
 
-Tree *Tree::getRoot() {
-    return root;
+void Tree::calculateMaxHeightImpl(Tree * node, int * height_ptr) {
+    if (node == nullptr)
+        return;
+    calculateMaxHeightImpl(node->left, height_ptr);
+
+    *height_ptr = std::max(node->height, *height_ptr);
+
+    calculateMaxHeightImpl(node->right, height_ptr);
 }
 
-Tree::Tree(int value) : parent(nullptr), root(this), left(nullptr), right(nullptr), value(value), height(1), max_height(1) {
-
+int Tree::calculateMaxHeight() {
+    Tree * root = findRoot();
+    int result = root->height;
+    calculateMaxHeightImpl(root, &result);
+    return result;
 }
 
 void Tree::insert(int value) {
@@ -31,15 +43,8 @@ void Tree::insert(int value) {
         throw std::runtime_error("Try to insert existing element in the tree");
 
     Tree * & appendNode = (this->value < value) ? right : left;
-    if (appendNode == nullptr) {
+    if (appendNode == nullptr)
         appendNode = new Tree(this, value);
-        appendNode->x_proj = x_proj + ((this->value < value) ? 1 : -1);
-
-        auto root_ptr = appendNode->getRoot();
-        root_ptr->max_height = std::max(root_ptr->max_height, appendNode->height);
-        root_ptr->x_max = std::max(appendNode->x_proj, root_ptr->x_max);
-        root_ptr->x_min = std::min(appendNode->x_proj, root_ptr->x_min);
-    }
     else
         appendNode->insert(value);
 }
