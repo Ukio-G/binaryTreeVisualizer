@@ -15,8 +15,10 @@ Tree* sampleTree() {
     Tree *t = new Tree(50);
     t->insert(25);
     t->insert(100);
-    t->insert(0);
-    t->insert(37);
+    t->insert(200);
+    t->insert(75);
+    t->insert(67);
+    t->insert(88);
     return t;
 }
 
