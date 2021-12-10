@@ -41,7 +41,8 @@ void smallLeftRotate(Tree *& root) {
     }
     if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
     /* Height correction */
-
+    a->correctHeight();
+    b->correctHeight();
 }
 
 void smallRightRotate(Tree *& root) {
@@ -70,7 +71,8 @@ void smallRightRotate(Tree *& root) {
     }
     if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
     /* Height correction */
-
+    a->correctHeight();
+    b->correctHeight();
 }
 
 void bigLeftRotate(Tree *& root, int key) {
@@ -111,5 +113,12 @@ void bigLeftRotateKey(Tree *& root, int key) {
 }
 
 void bigRightRotateKey(Tree *& root, int key) {
-
+    if (root->value == key) {
+        smallRightRotate(root->right);
+        smallLeftRotate(root);
+    } else {
+        Tree * node = findNodeByKey(root, key);
+        smallRightRotate(node->right);
+        smallLeftRotate(node);
+    }
 }

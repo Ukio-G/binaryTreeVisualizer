@@ -36,12 +36,24 @@ int Tree::calculateMaxHeight() {
 
 void Tree::recursiveHeightUpdate() {
     Tree *parent_ = parent;
-    int hops = 1;
     while (parent_) {
-        hops++;
-        parent_->height = std::max(parent_->height, hops);
+        auto left_height = (parent_->left) ? parent_->left->height : 0;
+        auto right_height = (parent_->right) ? parent_->right->height : 0;
+        parent_->height = std::max(right_height, left_height) + 1;
         parent_ = parent_->parent;
     }
+}
+
+int Tree::balanceFactor() {
+    int left_height = (left) ? left->height : 0;
+    int right_height = (right) ? right->height : 0;
+    return right_height - left_height;
+}
+
+void Tree::correctHeight() {
+    auto left_height = (left) ? left->height : 0;
+    auto right_height = (right) ? right->height : 0;
+    height = std::max(right_height, left_height) + 1;
 }
 
 void Tree::insert(int value) {

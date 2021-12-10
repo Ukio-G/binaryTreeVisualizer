@@ -21,8 +21,13 @@ public:
 
     void recursiveHeightUpdate();
 
+    void correctHeight();
+
 private:
     static void calculateMaxHeightImpl(Tree *node, int *height);
+
+    int balanceFactor();
+
 };
 
 int nodesCount(Tree* root);
