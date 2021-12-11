@@ -23,10 +23,15 @@ public:
 
     void correctHeight();
 
+    int balanceFactor();
+
+    bool balance();
+
+    void recursiveBalance();
+
 private:
     static void calculateMaxHeightImpl(Tree *node, int *height);
 
-    int balanceFactor();
 
 };
 

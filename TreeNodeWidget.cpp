@@ -144,6 +144,7 @@ void TreeNodeWidget::updateParametersWidgetGeometry() {
 void TreeNodeWidget::updateParametersWidgetContent() {
     parametersWidget.appendParameter("value", std::to_string(m_node->value));
     parametersWidget.appendParameter("height", std::to_string(m_node->height));
+    parametersWidget.appendParameter("bfactor", std::to_string(m_node->balanceFactor()));
 
     std::stringstream ss;
     ss << m_node;
@@ -160,5 +161,7 @@ void TreeNodeWidget::updateParametersWidgetContent() {
     ss.str("");
     ss << m_node->right;
     parametersWidget.appendParameter("right", ss.str());
+
+
 }
 

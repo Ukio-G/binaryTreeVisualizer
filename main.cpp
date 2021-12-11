@@ -11,16 +11,9 @@
 #include "TreeWidget.hpp"
 #include "rotations.hpp"
 
-Tree* sampleTree() {
-    Tree *t = new Tree(50);
-    t->insert(25);
-    t->insert(100);
-    t->insert(200);
-    t->insert(75);
-    t->insert(67);
-    t->insert(88);
-    return t;
-}
+#include "TreeTemplates.hpp"
+
+
 
 void treeControlMenu(Tree *& root, TreeWidget & widget);
 
@@ -33,7 +26,7 @@ int main() {
     settings.majorVersion = 3;
     settings.minorVersion = 0;
 
-    sf::RenderWindow window(sf::VideoMode(1500, 1000), "OpenGL", sf::Style::Default, settings);
+    sf::RenderWindow window(sf::VideoMode(1500, 1000), "AVL Tree Render", sf::Style::Default, settings);
     window.setVerticalSyncEnabled(false);
     ImGui::SFML::Init(window);
     window.setActive(true);
@@ -41,7 +34,11 @@ int main() {
     sf::Clock globalClock;
     globalClock.restart();
 
-    Tree * t = sampleTree();
+
+    /* Select needed tree HERE  */
+    Tree * t = complicatedBalanceTree();
+
+
 
     TreeWidget tw(t, {50, 50}, {1400,850});
 
@@ -139,6 +136,7 @@ void treeControlMenu(Tree *& root, TreeWidget & widget) {
     }
 
     if (rebuildTreeWidget) {
+        root = root->findRoot();
         widget.rebuildTree(root);
         widget.setContentOnCenter();
         widget.initConnectionBetweenNodes();

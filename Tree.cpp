@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include "Tree.hpp"
+#include "rotations.hpp"
 
 Tree *Tree::findRoot() {
     if (parent == nullptr)
@@ -37,9 +38,10 @@ int Tree::calculateMaxHeight() {
 void Tree::recursiveHeightUpdate() {
     Tree *parent_ = parent;
     while (parent_) {
-        auto left_height = (parent_->left) ? parent_->left->height : 0;
-        auto right_height = (parent_->right) ? parent_->right->height : 0;
-        parent_->height = std::max(right_height, left_height) + 1;
+        //auto left_height = (parent_->left) ? parent_->left->height : 0;
+        //auto right_height = (parent_->right) ? parent_->right->height : 0;
+        //parent_->height = std::max(right_height, left_height) + 1;
+        parent_->correctHeight();
         parent_ = parent_->parent;
     }
 }
@@ -64,6 +66,7 @@ void Tree::insert(int value) {
     if (appendNode == nullptr) {
         appendNode = new Tree(this, value);
         appendNode->recursiveHeightUpdate();
+        appendNode->recursiveBalance();
     }
     else
         appendNode->insert(value);
@@ -82,6 +85,34 @@ int Tree::getWidth() {
         tmp = tmp->right;
     }
     return result;
+}
+
+bool Tree::balance() {
+    Tree * node = this;
+    if (balanceFactor() == 2) {
+        if( right && right->balanceFactor() < 0 )
+            bigLeftRotate(node);
+        else
+            smallLeftRotate(node);
+        return true;
+    } else if (balanceFactor() == -2) {
+        if( left && left->balanceFactor() > 0 )
+            bigRightRotate(node);
+        else
+            smallRightRotate(node);
+        return true;
+    }
+    return false;
+}
+
+void Tree::recursiveBalance() {
+    Tree * parent_ = parent;
+
+    while (parent_) {
+        if (parent_->balance())
+            return;
+        parent_ = parent_->parent;
+    }
 }
 
 void nodesCountImpl(Tree* root, int * counter) {
@@ -107,4 +138,6 @@ int distanceToRoot(Tree* node) {
     }
     return distance;
 }
+
+
 

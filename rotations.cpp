@@ -43,6 +43,7 @@ void smallLeftRotate(Tree *& root) {
     /* Height correction */
     a->correctHeight();
     b->correctHeight();
+    b->recursiveHeightUpdate();
 }
 
 void smallRightRotate(Tree *& root) {
@@ -73,14 +74,19 @@ void smallRightRotate(Tree *& root) {
     /* Height correction */
     a->correctHeight();
     b->correctHeight();
+    b->recursiveHeightUpdate();
 }
 
-void bigLeftRotate(Tree *& root, int key) {
-
+void bigLeftRotate(Tree *& root) {
+    smallRightRotate(root->right);
+    smallLeftRotate(root);
+    root->recursiveHeightUpdate();
 }
 
-void bigRightRotate(Tree *& root, int key) {
-
+void bigRightRotate(Tree *& root) {
+    smallLeftRotate(root->left);
+    smallRightRotate(root);
+    root->recursiveHeightUpdate();
 }
 
 void smallLeftRotateKey(Tree *& root, int key) {
@@ -103,22 +109,18 @@ void smallRightRotateKey(Tree *& root, int key) {
 
 void bigLeftRotateKey(Tree *& root, int key) {
     if (root->value == key) {
-        smallRightRotate(root->right);
-        smallLeftRotate(root);
+        bigLeftRotate(root);
     } else {
         Tree * node = findNodeByKey(root, key);
-        smallRightRotate(node->right);
-        smallLeftRotate(node);
+        bigLeftRotate(node);
     }
 }
 
 void bigRightRotateKey(Tree *& root, int key) {
     if (root->value == key) {
-        smallRightRotate(root->right);
-        smallLeftRotate(root);
+        bigRightRotate(root);
     } else {
         Tree * node = findNodeByKey(root, key);
-        smallRightRotate(node->right);
-        smallLeftRotate(node);
+        bigRightRotate(node);
     }
 }
