@@ -225,7 +225,7 @@ TreeNodeWidget *TreeWidget::findWidgetByNode(Tree *node) {
 }
 
 void TreeWidget::highlight(int key) {
-    if (auto node = findNodeByKey(root, key)) {
+    if (auto node = root->find(key)) {
         if (auto widget = findWidgetByNode(node)) {
             widget->setCircleColor(sf::Color::Cyan);
         }

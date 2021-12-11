@@ -13,7 +13,10 @@ public:
 
 
     Tree* findRoot();
+    
     void insert(int value);
+    
+    Tree* find(int key);
 
     int getWidth();
 
@@ -29,9 +32,17 @@ public:
 
     void recursiveBalance();
 
+    void remove(int key);
+
+    Tree* findMinimum();
+    Tree* findMaximum();
+
+    void setMinimumAsNull();
+
 private:
     static void calculateMaxHeightImpl(Tree *node, int *height);
-
+    void setParentToThisNull();
+    void setParentToThisToArg(Tree* new_node);
 
 };
 

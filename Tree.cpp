@@ -115,6 +115,104 @@ void Tree::recursiveBalance() {
     }
 }
 
+Tree* Tree::find(int key) {
+    if (value == key)
+        return this;
+
+    if (left && left->find(key))
+        return left->find(key);
+
+    if (right && right->find(key))
+        return right->find(key);
+
+    return 0;
+}
+
+void Tree::setMinimumAsNull() {
+    Tree * min_node = left;
+    while (min_node)
+    {
+        if (min_node->left)
+            min_node = min_node->left;
+        else 
+            break;
+    }
+    Tree * parent_min = min_node->parent;
+    parent_min->left = parent_min->right;
+    parent_min->recursiveBalance();
+}
+
+
+Tree* Tree::findMinimum() {
+    return (left) ? left->findMinimum() : this;
+}
+
+Tree* Tree::findMaximum() {
+    return (right) ? right->findMaximum() : this;   
+}
+
+void Tree::setParentToThisNull() {
+    if (parent) {
+        if (parent->left == this)
+            parent->left = 0;
+        else if (parent->right == this)
+            parent->right = 0;
+    }
+}
+
+void Tree::setParentToThisToArg(Tree* new_node) {
+    if (parent) {
+        if (parent->left == this)
+            parent->left = new_node;
+        else if (parent->right == this)
+            parent->right = new_node;
+    }
+}
+
+void Tree::remove(int key) {
+    Tree* delete_node = find(key);
+    if (!delete_node)
+        return;
+    Tree* delete_parent = delete_node->parent;
+
+
+    /* Just leaf */
+    if (delete_node->left == 0 && delete_node->right == 0) {
+        delete_node->setParentToThisNull();
+        delete delete_node; /* Possible 'delete this' ? */
+        if (delete_parent)
+            delete_parent->balance();
+        return;
+    }
+
+    /* No left subtree => only one node in right subtree available */
+    if (delete_node->left == 0) {
+        setParentToThisToArg(delete_node->right);
+        delete_node->right->parent = delete_parent;
+        if (delete_parent)
+            delete_parent->balance();
+        return;
+    }
+
+    /* Find maximum node in left subtree and make it new root of subtree (instread of deleted node) */
+
+    Tree* new_node = delete_node->left->findMaximum();
+
+    new_node->setParentToThisToArg(new_node->left);
+    if(new_node->left)
+        new_node->left->parent = new_node->parent;
+    delete_node->setParentToThisToArg(new_node);
+    new_node->parent = delete_parent;
+    new_node->left = delete_node->left; new_node->right = delete_node->right;
+    
+    if (delete_node->left) delete_node->left->parent = new_node;
+    if (delete_node->right) delete_node->right->parent = new_node;
+
+    delete delete_node;
+    new_node->recursiveHeightUpdate();
+    new_node->balance();
+}
+
 void nodesCountImpl(Tree* root, int * counter) {
     if (root == nullptr)
         return;

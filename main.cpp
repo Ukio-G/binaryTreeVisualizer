@@ -131,9 +131,19 @@ void treeControlMenu(Tree *& root, TreeWidget & widget) {
         widget.highlight(nodeKeyManipulation);
     }
 
-    if (ImGui::Button("Rebuild")) {
+
+   if (ImGui::Button("Remove min from key")) {
+        if (auto node = root->find(nodeKeyManipulation))
+            node->setMinimumAsNull();
         rebuildTreeWidget = true;
     }
+
+
+   if (ImGui::Button("Remove")) {
+        root->remove(nodeKeyManipulation);
+        rebuildTreeWidget = true;
+    }
+
 
     if (rebuildTreeWidget) {
         root = root->findRoot();
