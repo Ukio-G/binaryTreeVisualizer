@@ -187,10 +187,11 @@ void Tree::remove(int key) {
 
     /* No left subtree => only one node in right subtree available */
     if (delete_node->left == 0) {
-        setParentToThisToArg(delete_node->right);
+        delete_node->setParentToThisToArg(delete_node->right);
         delete_node->right->parent = delete_parent;
         if (delete_parent)
             delete_parent->balance();
+        delete delete_node; 
         return;
     }
 
@@ -209,8 +210,10 @@ void Tree::remove(int key) {
     if (delete_node->right) delete_node->right->parent = new_node;
 
     delete delete_node;
-    new_node->recursiveHeightUpdate();
-    new_node->balance();
+    if (delete_parent) {
+        new_node->recursiveHeightUpdate();
+        new_node->balance();
+    }
 }
 
 void nodesCountImpl(Tree* root, int * counter) {
