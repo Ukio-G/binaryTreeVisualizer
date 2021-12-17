@@ -11,3 +11,4 @@ Tree* simpleTree();
 
 Tree* complicatedBalanceTree();
 
+Tree * twoNodesTree();

@@ -13,8 +13,6 @@
 
 #include "TreeTemplates.hpp"
 
-
-
 void treeControlMenu(Tree *& root, TreeWidget & widget);
 
 int main() {
@@ -30,13 +28,14 @@ int main() {
     window.setVerticalSyncEnabled(false);
     ImGui::SFML::Init(window);
     window.setActive(true);
+    window.setFramerateLimit(30);
     sf::Clock deltaClock;
     sf::Clock globalClock;
     globalClock.restart();
 
 
     /* Select needed tree HERE  */
-    Tree * t = complicatedBalanceTree();
+    Tree * t = twoNodesTree();
 
 
 
@@ -140,7 +139,10 @@ void treeControlMenu(Tree *& root, TreeWidget & widget) {
 
 
    if (ImGui::Button("Remove")) {
-        root->remove(nodeKeyManipulation);
+        auto result = root->remove(nodeKeyManipulation);
+        if (!result)
+            result = twoNodesTree();
+        root = result->findRoot();
         rebuildTreeWidget = true;
     }
 

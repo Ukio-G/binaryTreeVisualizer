@@ -32,7 +32,7 @@ public:
 
     void recursiveBalance();
 
-    void remove(int key);
+    Tree * remove(int key);
 
     Tree* findMinimum();
     Tree* findMaximum();

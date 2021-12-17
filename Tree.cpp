@@ -8,7 +8,7 @@ Tree *Tree::findRoot() {
     Tree * tmp_parent = parent;
     while (tmp_parent)
         if (tmp_parent->parent)
-            tmp_parent = parent;
+            tmp_parent = tmp_parent->parent;
         else
             break;
     return tmp_parent;
@@ -37,6 +37,7 @@ int Tree::calculateMaxHeight() {
 
 void Tree::recursiveHeightUpdate() {
     Tree *parent_ = parent;
+    correctHeight();
     while (parent_) {
         //auto left_height = (parent_->left) ? parent_->left->height : 0;
         //auto right_height = (parent_->right) ? parent_->right->height : 0;
@@ -107,7 +108,7 @@ bool Tree::balance() {
 
 void Tree::recursiveBalance() {
     Tree * parent_ = parent;
-
+    balance();
     while (parent_) {
         if (parent_->balance())
             return;
@@ -169,30 +170,34 @@ void Tree::setParentToThisToArg(Tree* new_node) {
     }
 }
 
-void Tree::remove(int key) {
+Tree * Tree::remove(int key) {
     Tree* delete_node = find(key);
     if (!delete_node)
-        return;
+        return findRoot();
     Tree* delete_parent = delete_node->parent;
 
 
     /* Just leaf */
     if (delete_node->left == 0 && delete_node->right == 0) {
         delete_node->setParentToThisNull();
+        if (delete_parent) {
+            delete_parent->recursiveHeightUpdate();
+            delete_parent->recursiveBalance();
+        }
         delete delete_node; /* Possible 'delete this' ? */
-        if (delete_parent)
-            delete_parent->balance();
-        return;
+        return delete_parent;
     }
 
     /* No left subtree => only one node in right subtree available */
     if (delete_node->left == 0) {
         delete_node->setParentToThisToArg(delete_node->right);
         delete_node->right->parent = delete_parent;
-        if (delete_parent)
-            delete_parent->balance();
-        delete delete_node; 
-        return;
+        if (delete_parent) {
+            delete_parent->recursiveHeightUpdate();
+            delete_parent->recursiveBalance();
+        }
+        delete delete_node;
+        return delete_node->right;
     }
 
     /* Find maximum node in left subtree and make it new root of subtree (instread of deleted node) */
@@ -210,10 +215,13 @@ void Tree::remove(int key) {
     if (delete_node->right) delete_node->right->parent = new_node;
 
     delete delete_node;
+
     if (delete_parent) {
         new_node->recursiveHeightUpdate();
         new_node->balance();
+        return delete_parent;
     }
+    return new_node;
 }
 
 void nodesCountImpl(Tree* root, int * counter) {

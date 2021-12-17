@@ -24,7 +24,7 @@ Tree* bigRightRotateTree() {
     t->insert(25); t->insert(11); t->insert(37); t->insert(30); t->insert(42);
 
 
-    return t;
+    return t->findRoot();
 }
 
 
@@ -53,6 +53,12 @@ Tree* simpleTree() {
     t->insert(800);
     t->insert(25);
 
+    return t;
+}
+
+Tree * twoNodesTree() {
+    Tree *t = new Tree(100);
+    t->insert(50);
     return t;
 }
 
