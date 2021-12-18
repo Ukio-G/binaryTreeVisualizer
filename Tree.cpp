@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include "Tree.hpp"
-#include "rotations.hpp"
+#include "rotationsVisualizer.hpp"
 
 Tree *Tree::findRoot() {
     if (parent == nullptr)
@@ -39,9 +39,6 @@ void Tree::recursiveHeightUpdate() {
     Tree *parent_ = parent;
     correctHeight();
     while (parent_) {
-        //auto left_height = (parent_->left) ? parent_->left->height : 0;
-        //auto right_height = (parent_->right) ? parent_->right->height : 0;
-        //parent_->height = std::max(right_height, left_height) + 1;
         parent_->correctHeight();
         parent_ = parent_->parent;
     }
@@ -248,5 +245,77 @@ int distanceToRoot(Tree* node) {
     return distance;
 }
 
+
+void Tree::smallLeftRotate(Tree *& root) {
+    auto a = root;
+    auto parent = a->parent;
+
+    auto direction = (parent) ? (parent->left == a) ? LeftDir : RightDir : NoneDir;
+
+    /* Get subtrees */
+    auto b = a->right; auto l = a->left; auto c = b->left; auto r = b->right;
+
+    /* Unbinding connections */
+    b->left = b->right = a->left = a->right = b->parent = a->parent = nullptr;
+    if (l) l->parent = nullptr; if (c) c->parent = nullptr; if (r) r->parent = nullptr;
+
+    /* Parent and child connections binding */
+    a->left = l; a->right = c; if (l) l->parent = a; if (c) c->parent = a;
+    b->left = a; b->right = r; if (r) r->parent = b;
+    a->parent = b;
+    if (direction != NoneDir)
+        b->parent = parent;
+    else {  // Change root
+        b->parent = nullptr;
+        root = b;
+    }
+    if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
+    /* Height correction */
+    a->correctHeight();
+    b->correctHeight();
+    b->recursiveHeightUpdate();
+}
+
+void Tree::smallRightRotate(Tree *& root) {
+    auto a = root;
+    auto parent = a->parent;
+
+    auto direction = (parent) ? (parent->left == a) ? LeftDir : RightDir : NoneDir;
+
+    /* Get subtrees */
+    auto b = a->left; auto l = b->left; auto c = b->right; auto r = a->right;
+
+    /* Unbinding connections */
+    b->left = b->right = a->left = a->right = b->parent = a->parent = nullptr;
+    if (l) l->parent = nullptr; if (c) c->parent = nullptr; if (r) r->parent = nullptr;
+
+    /* Parent and child connections binding */
+    a->left = c; a->right = r; if (r) r->parent = a; if (c) c->parent = a;  /* node A connections */
+    b->left = l; b->right = a; if (l) l->parent = b;                        /* node B connections */
+    a->parent = b;
+    if (direction != NoneDir)
+        b->parent = parent;
+    else {  // Change root
+        b->parent = nullptr;
+        root = b;
+    }
+    if (direction == LeftDir) parent->left = b; else if (direction == RightDir) parent->right = b;
+    /* Height correction */
+    a->correctHeight();
+    b->correctHeight();
+    b->recursiveHeightUpdate();
+}
+
+void Tree::bigLeftRotate(Tree *& root) {
+    smallRightRotate(root->right);
+    smallLeftRotate(root);
+    root->recursiveHeightUpdate();
+}
+
+void Tree::bigRightRotate(Tree *& root) {
+    smallLeftRotate(root->left);
+    smallRightRotate(root);
+    root->recursiveHeightUpdate();
+}
 
 

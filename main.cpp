@@ -9,7 +9,7 @@
 #include "imgui-SFML.h"
 #include "Tree.hpp"
 #include "TreeWidget.hpp"
-#include "rotations.hpp"
+#include "rotationsVisualizer.hpp"
 
 #include "TreeTemplates.hpp"
 
@@ -35,7 +35,7 @@ int main() {
 
 
     /* Select needed tree HERE  */
-    Tree * t = twoNodesTree();
+    Tree * t = oneTo20Tree();
 
 
 

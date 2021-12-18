@@ -1,5 +1,5 @@
 #include "Tree.hpp"
-#include "rotations.hpp"
+#include "rotationsVisualizer.hpp"
 
 Tree* bigLeftRotateTree();
 
@@ -12,3 +12,5 @@ Tree* simpleTree();
 Tree* complicatedBalanceTree();
 
 Tree * twoNodesTree();
+
+Tree * oneTo20Tree();

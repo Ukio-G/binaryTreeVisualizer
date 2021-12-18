@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package (Threads)
 
 set(CMAKE_CXX_STANDARD 14)
-
+set(CMAKE_CXX_FLAGS "-DVISUALIZER_TREE")
 find_package(OpenGL REQUIRED)
 find_package (Threads)
 find_package(GLEW REQUIRED)
@@ -27,7 +27,7 @@ add_executable(tree_drawer
         Tree.cpp
         TreeWidget.cpp
         TreeNodeWidget.cpp
-        rotations.cpp
+        rotationsVisualizer.cpp
         ParameterWidget.cpp
         ParametersWidget.cpp
         TreeTemplates.cpp

@@ -1,5 +1,5 @@
 #include "TreeWidget.hpp"
-#include "rotations.hpp"
+#include "rotationsVisualizer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <cmath>
 
