@@ -193,14 +193,15 @@ Tree * Tree::remove(int key) {
             delete_parent->recursiveHeightUpdate();
             delete_parent->recursiveBalance();
         }
+        Tree * result = delete_node->right;
         delete delete_node;
-        return delete_node->right;
+        return result;
     }
 
-    /* Find maximum node in left subtree and make it new root of subtree (instread of deleted node) */
+    /* Find maximum node in left subtree and make it new root of subtree (instead of deleted node) */
 
     Tree* new_node = delete_node->left->findMaximum();
-
+    Tree* new_node_parent = new_node->parent;
     new_node->setParentToThisToArg(new_node->left);
     if(new_node->left)
         new_node->left->parent = new_node->parent;
@@ -214,8 +215,9 @@ Tree * Tree::remove(int key) {
     delete delete_node;
 
     if (delete_parent) {
-        new_node->recursiveHeightUpdate();
-        new_node->balance();
+        Tree *balance_node = (new_node_parent == delete_node) ? new_node : new_node_parent;
+        balance_node->recursiveHeightUpdate();
+        balance_node->balance();
         return delete_parent;
     }
     return new_node;

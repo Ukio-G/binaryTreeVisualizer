@@ -78,9 +78,10 @@ Tree *complicatedBalanceTree() {
 }
 
 Tree * oneTo20Tree() {
-    Tree *t = new Tree(100);
-    t->insert(50);
-    for (int i = 0; i < 20; ++i)
+    Tree *t = new Tree(0);
+    for (int i = 1; i < 20; ++i) {
         t->insert(i);
+        t = t->findRoot();
+    }
     return t->findRoot();
 }

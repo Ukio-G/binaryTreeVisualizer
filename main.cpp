@@ -37,8 +37,6 @@ int main() {
     /* Select needed tree HERE  */
     Tree * t = oneTo20Tree();
 
-
-
     TreeWidget tw(t, {50, 50}, {1400,850});
 
     tw.setContentOnCenter();
@@ -76,8 +74,6 @@ int main() {
         window.clear();
 
         // Render shapes
-
-
         tw.drawSegments(window);
         window.draw(tw);
         ImGui::SFML::Render(window);
